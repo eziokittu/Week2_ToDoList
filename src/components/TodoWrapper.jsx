@@ -44,20 +44,35 @@ export const TodoWrapper = () => {
 	}, [todoLists, currentListName]);
 
 	// Helper function to sort todos
-	const sortTodos = (todos, sortBy) => {
-		const [key, order] = sortBy.split(', ');
-		const sortedTodos = [...todos].sort((a, b) => {
-			if (key === 'name') {
-				if (order === 'ascending') {
-					return a.task.localeCompare(b.task);
-				} else {
-					return b.task.localeCompare(a.task);
-				}
-			}
-			return 0;
-		});
-		return sortedTodos;
-	};
+// Helper function to sort todos
+const sortTodos = (todos, sortBy) => {
+	if (!todos) return []; // Return an empty array if todos is undefined or null
+
+	if (!sortBy) return todos; // If sortBy is undefined, return todos as is
+
+	const [key, order] = sortBy.split(', ');
+	const sortedTodos = [...todos];
+	if (key === 'name') {
+			sortedTodos.sort((a, b) => {
+					if (order === 'ascending') {
+							return a.task.localeCompare(b.task);
+					} else {
+							return b.task.localeCompare(a.task);
+					}
+			});
+	} else if (key === 'custom') {
+			sortedTodos.sort((a, b) => {
+					if (order === 'ascending') {
+							return new Date(a.dateTime) - new Date(b.dateTime);
+					} else {
+							return new Date(b.dateTime) - new Date(a.dateTime);
+					}
+			});
+	}
+	return sortedTodos;
+};
+
+
 
 	// add new list
 	const addTodoList = () => {
@@ -74,7 +89,9 @@ export const TodoWrapper = () => {
 			listName = `${baseName}${counter}`;
 		}
 
-		setTodoLists([...todoLists, { name: listName, todos: [], sortBy: "name, ascending", editMode: false }]);
+		const defaultSortBy = "name, ascending"; // Default sorting order
+
+		setTodoLists([...todoLists, { name: listName, todos: [], sortBy: defaultSortBy, editMode: false }]);
 		setCurrentListName(listName);
 	}
 
@@ -110,7 +127,7 @@ export const TodoWrapper = () => {
 	const addTodo = (listName, todo) => {
 		const newTodos = [
 			...todoLists.find(list => list.name === listName).todos,
-			{ id: uuidv4(), task: todo, completed: false, isEditing: false },
+			{ id: uuidv4(), task: todo, completed: false, isEditing: false, dateTime: new Date() },
 		];
 		const newTodoLists = todoLists.map(list =>
 			list.name === listName ? { ...list, todos: newTodos } : list
@@ -173,13 +190,6 @@ export const TodoWrapper = () => {
 		setTodoLists(newTodoLists);
 	};
 
-	const toggleEditMode = (listName) => {
-		const newTodoLists = todoLists.map(list =>
-			list.name === listName ? { ...list, editMode: !list.editMode } : list
-		);
-		setTodoLists(newTodoLists);
-	};
-
 	return (
 		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-red-500">
 
@@ -218,6 +228,8 @@ export const TodoWrapper = () => {
 			{/* Display the selected todo list */}
 			{currentListName && (
 				<div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-1/2 max-w-lg">
+
+					{/* Todo list name */}
 					<div className="flex items-center justify-between w-full">
 						<h2 className="text-2xl font-bold mb-2">{currentListName}</h2>
 						<div className="flex space-x-2">
@@ -272,11 +284,15 @@ export const TodoWrapper = () => {
 						>
 							<option value="name, ascending">Name, ascending</option>
 							<option value="name, descending">Name, descending</option>
+							<option value="custom, ascending">Custom, ascending</option>
+							<option value="custom, descending">Custom, descending</option>
 						</select>
 					</div>
 
+					{/* add todo item form */}
 					<TodoForm addTodo={(todo) => addTodo(currentListName, todo)} />
 
+					{/* Displaying all sorted todo items */}
 					{sortTodos(todoLists.find(list => list.name === currentListName)?.todos, todoLists.find(list => list.name === currentListName)?.sortBy).map((todo) =>
 						todo.isEditing ? (
 							<EditTodoForm
