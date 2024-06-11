@@ -106,17 +106,19 @@ const sortTodos = (todos, sortBy) => {
 	};
 
 	// update the name of a todo list
-	const confirmEditListName = (oldName, newName) => {
-		if (oldName === newName || !todoLists.some(list => list.name === newName)) {
+const confirmEditListName = (oldName, newName) => {
+	if (oldName === newName || !todoLists.some(list => list.name === newName)) {
 			const index = todoLists.findIndex(list => list.name === oldName);
 			const newTodoLists = [...todoLists];
 			newTodoLists[index] = { ...newTodoLists[index], name: newName };
 			setTodoLists(newTodoLists);
 			setEditingListName("");
-		} else {
+			setCurrentListName(newName); // Update currentListName with the new name
+	} else {
 			alert("List name already exists. Please choose a different name.");
-		}
 	}
+}
+
 
 	const cancelEditListName = () => {
 		setEditingListName("");
