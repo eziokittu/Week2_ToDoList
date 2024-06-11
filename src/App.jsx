@@ -1,9 +1,23 @@
-import React from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { TodoWrapper } from './components/TodoWrapper';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Background from './components/Background';
 
-const App = () => {
+function App() {
   return (
-    <div className='text-red-500'>Hello</div>
-  )
+    <>
+      <Background />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          {/* All routes will hit this */}
+          <Route path="*" element={<TodoWrapper />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </>
+  );
 }
 
-export default App
+export default App;
