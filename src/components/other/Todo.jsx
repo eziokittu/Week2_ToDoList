@@ -5,7 +5,7 @@ export const Todo = ({ task, deleteTodo, editTodo, toggleComplete }) => {
     <div className="bg-green-400 w-full p-2 ">
       {/* Task */}
       <p
-        className={`${task.completed ? 'line-through' : ''} w-full break-words whitespace-pre-wrap text-justify`}
+        className={`${task.completed ? 'line-through' : ''} w-full break-words whitespace-pre-wrap text-justify text-black`}
         onClick={() => toggleComplete(task.id)}
       >
         {task.task}

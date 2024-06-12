@@ -18,7 +18,7 @@ const Navbar = () => {
             alt="Celebal Technologies" 
           />
         </div>
-        <div>My To-Do-Lists</div>
+        <div>My To-do lists</div>
       </div>
     </div>
   );

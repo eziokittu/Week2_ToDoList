@@ -40,7 +40,10 @@ export const TodoWrapper = () => {
 
 	// Use useEffect to set the first list as default if currentListName is empty
 	useEffect(() => {
-		if (!currentListName && todoLists.length > 0) {
+		if (!currentListName && todoLists.length > 1) {
+			setCurrentListName(todoLists[1].name);
+		}
+		else if (!currentListName && todoLists.length > 0) {
 			setCurrentListName(todoLists[0].name);
 		}
 	}, [todoLists, currentListName]);
@@ -73,8 +76,6 @@ export const TodoWrapper = () => {
 		}
 		return sortedTodos;
 	};
-
-
 
 	// add new list
 	const addTodoList = () => {
@@ -194,60 +195,63 @@ export const TodoWrapper = () => {
 	};
 
 	return (
-		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-red-500 px-2 sm:px-4 font-Roboto">
+		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-[#ffe4f9] px-2 sm:px-4 font-Roboto">
 
 			{/* Add a new todo list button */}
 			<TodoListAddButton addTodoList={addTodoList} />
 
 
 			{/* Top menu - List of all todo names */}
-			<TopMenu
-				addTodoList={addTodoList}
-				todoLists={todoLists}
-				currentListName={currentListName}
-				setCurrentListName={setCurrentListName}
-			/>
+			<div className="w-full sm:w-[650px] my-4 ">
+				<TopMenu
+					addTodoList={addTodoList}
+					todoLists={todoLists}
+					currentListName={currentListName}
+					setCurrentListName={setCurrentListName}
+				/>
+			</div>
 
 			{/* Display the selected todo list */}
 			{currentListName && (
-				<div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-full sm:w-[650px]">
+				<div className="flex flex-col items-center bg-[#230e28] text-[#ffe4f9] p-4 rounded-lg shadow-md w-full sm:w-[650px]">
 
 					{/* Todo list name */}
-					<div className="flex items-center justify-between w-full">
-						{editingListName !== currentListName && (
-							<h2 className="text-2xl font-bold mb-2">{currentListName}</h2>
-						)}
-						<div className="flex space-x-2">
+					<div className="w-full">
+						<div className="">
 							{editingListName === currentListName ? (
-								<>
+								<div className="flex space-x-2 w-full">
 									{/* Rename input field */}
 									<input
-										className="bg-gray-700 text-white px-2 rounded"
+										className="bg-gray-700 text-white px-2 rounded text-2xl font-bold w-full"
 										value={newListName}
+										maxLength={28}
 										onChange={(e) => setNewListName(e.target.value)}
 									/>
 
 									{/* Confirm button */}
 									<button
-										className="  text-green-500"
+										className="text-green-500 bg-[#110713] hover:bg-[#431b4d] rounded-full p-2 w-fit"
 										onClick={() => confirmEditListName(currentListName, newListName)}
 									>
-										<svg className="w-8 h-8" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 335.765 335.765" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <polygon points="311.757,41.803 107.573,245.96 23.986,162.364 0,186.393 107.573,293.962 335.765,65.795 "></polygon> </g> </g> </g></svg>
+										<svg className="w-4 h-4 xsm:w-8 xsm:h-8" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 335.765 335.765" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <polygon points="311.757,41.803 107.573,245.96 23.986,162.364 0,186.393 107.573,293.962 335.765,65.795 "></polygon> </g> </g> </g></svg>
 									</button>
 
 									{/* Cancel button */}
 									<button
-										className="text-red-500 px-2 rounded"
+										className="text-red-500 bg-[#110713] hover:bg-[#431b4d] rounded-full p-2"
 										onClick={cancelEditListName}
 									>
-										<svg className="w-8 h-8" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fillRule="evenodd"></path> </g></svg>
+										<svg className="w-4 h-4 xsm:w-8 xsm:h-8" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fillRule="evenodd"></path> </g></svg>
 									</button>
-								</>
+								</div>
 							) : (
-								<>
+								<div  className="flex space-x-2 w-full">
+									{/* todo list heading */}
+									<p className="text-2xl font-bold w-full">{currentListName}</p>
+
 									{/* Edit button */}
 									<button
-										className="bg-yellow-500 text-white px-2 rounded"
+										className="text-white px-2 bg-yellow-500 rounded-full p-2 ml-auto w-fit"
 										onClick={() => {
 											setEditingListName(currentListName);
 											setNewListName(currentListName);
@@ -258,12 +262,12 @@ export const TodoWrapper = () => {
 
 									{/* Delete Button */}
 									<button
-										className="bg-red-500 text-white px-2 rounded"
+										className="bg-red-500 text-white px-2 rounded-full p-2 w-fit"
 										onClick={() => deleteTodoList(currentListName)}
 									>
 										<svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M14 12V17" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M4 7H20" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
 									</button>
-								</>
+								</div>
 							)}
 						</div>
 					</div>
