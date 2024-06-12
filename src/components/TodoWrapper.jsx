@@ -3,6 +3,8 @@ import { Todo } from "./other/Todo";
 import { TodoForm } from "./other/TodoForm";
 import { EditTodoForm } from './other/EditTodoForm';
 import { v4 as uuidv4 } from "uuid";
+import TopMenu from "./other/TopMenu";
+import TodoListAddButton from "./other/TodoListAddButton";
 
 // Helper function to get data from local storage
 const getTodosFromLocalStorage = () => {
@@ -44,33 +46,33 @@ export const TodoWrapper = () => {
 	}, [todoLists, currentListName]);
 
 	// Helper function to sort todos
-// Helper function to sort todos
-const sortTodos = (todos, sortBy) => {
-	if (!todos) return []; // Return an empty array if todos is undefined or null
+	// Helper function to sort todos
+	const sortTodos = (todos, sortBy) => {
+		if (!todos) return []; // Return an empty array if todos is undefined or null
 
-	if (!sortBy) return todos; // If sortBy is undefined, return todos as is
+		if (!sortBy) return todos; // If sortBy is undefined, return todos as is
 
-	const [key, order] = sortBy.split(', ');
-	const sortedTodos = [...todos];
-	if (key === 'name') {
+		const [key, order] = sortBy.split(', ');
+		const sortedTodos = [...todos];
+		if (key === 'name') {
 			sortedTodos.sort((a, b) => {
-					if (order === 'ascending') {
-							return a.task.localeCompare(b.task);
-					} else {
-							return b.task.localeCompare(a.task);
-					}
+				if (order === 'ascending') {
+					return a.task.localeCompare(b.task);
+				} else {
+					return b.task.localeCompare(a.task);
+				}
 			});
-	} else if (key === 'custom') {
+		} else if (key === 'custom') {
 			sortedTodos.sort((a, b) => {
-					if (order === 'ascending') {
-							return new Date(a.dateTime) - new Date(b.dateTime);
-					} else {
-							return new Date(b.dateTime) - new Date(a.dateTime);
-					}
+				if (order === 'ascending') {
+					return new Date(a.dateTime) - new Date(b.dateTime);
+				} else {
+					return new Date(b.dateTime) - new Date(a.dateTime);
+				}
 			});
-	}
-	return sortedTodos;
-};
+		}
+		return sortedTodos;
+	};
 
 
 
@@ -106,19 +108,18 @@ const sortTodos = (todos, sortBy) => {
 	};
 
 	// update the name of a todo list
-const confirmEditListName = (oldName, newName) => {
-	if (oldName === newName || !todoLists.some(list => list.name === newName)) {
+	const confirmEditListName = (oldName, newName) => {
+		if (oldName === newName || !todoLists.some(list => list.name === newName)) {
 			const index = todoLists.findIndex(list => list.name === oldName);
 			const newTodoLists = [...todoLists];
 			newTodoLists[index] = { ...newTodoLists[index], name: newName };
 			setTodoLists(newTodoLists);
 			setEditingListName("");
 			setCurrentListName(newName); // Update currentListName with the new name
-	} else {
+		} else {
 			alert("List name already exists. Please choose a different name.");
+		}
 	}
-}
-
 
 	const cancelEditListName = () => {
 		setEditingListName("");
@@ -193,70 +194,58 @@ const confirmEditListName = (oldName, newName) => {
 	};
 
 	return (
-		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-red-500">
+		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-red-500 px-2 sm:px-4">
 
 			{/* Add a new todo list button */}
-			<div
-				onClick={addTodoList}
-				className="fixed right-0 bottom-16 sm:bottom-14"
-			>
-				<svg className="w-24 h-24 fill-green-500" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12.75 9C12.75 8.58579 12.4142 8.25 12 8.25C11.5858 8.25 11.25 8.58579 11.25 9L11.25 11.25H9C8.58579 11.25 8.25 11.5858 8.25 12C8.25 12.4142 8.58579 12.75 9 12.75H11.25V15C11.25 15.4142 11.5858 15.75 12 15.75C12.4142 15.75 12.75 15.4142 12.75 15L12.75 12.75H15C15.4142 12.75 15.75 12.4142 15.75 12C15.75 11.5858 15.4142 11.25 15 11.25H12.75V9Z" fill="#000000"></path> <path fillRule="evenodd" clipRule="evenodd" d="M12.0574 1.25H11.9426C9.63424 1.24999 7.82519 1.24998 6.41371 1.43975C4.96897 1.63399 3.82895 2.03933 2.93414 2.93414C2.03933 3.82895 1.63399 4.96897 1.43975 6.41371C1.24998 7.82519 1.24999 9.63424 1.25 11.9426V12.0574C1.24999 14.3658 1.24998 16.1748 1.43975 17.5863C1.63399 19.031 2.03933 20.1711 2.93414 21.0659C3.82895 21.9607 4.96897 22.366 6.41371 22.5603C7.82519 22.75 9.63424 22.75 11.9426 22.75H12.0574C14.3658 22.75 16.1748 22.75 17.5863 22.5603C19.031 22.366 20.1711 21.9607 21.0659 21.0659C21.9607 20.1711 22.366 19.031 22.5603 17.5863C22.75 16.1748 22.75 14.3658 22.75 12.0574V11.9426C22.75 9.63424 22.75 7.82519 22.5603 6.41371C22.366 4.96897 21.9607 3.82895 21.0659 2.93414C20.1711 2.03933 19.031 1.63399 17.5863 1.43975C16.1748 1.24998 14.3658 1.24999 12.0574 1.25ZM5.66377 2.4424C7.03349 2.26733 8.70864 2.25 11.75 2.25H12.25C15.2914 2.25 16.9665 2.26733 18.3362 2.4424C19.4889 2.59079 20.207 2.85037 20.7368 3.38014C21.2666 3.90993 21.5262 4.62803 21.6746 5.78074C21.8497 7.15046 21.867 8.8256 21.867 11.8669V12.1331C21.867 15.1744 21.8497 16.8495 21.6746 18.2193C21.5262 19.372 21.2666 20.0901 20.7368 20.6199C20.207 21.1496 19.4889 21.4092 18.3362 21.5576C16.9665 21.7327 15.2914 21.75 12.25 21.75H11.75C8.70864 21.75 7.03349 21.7327 5.66377 21.5576C4.51106 21.4092 3.79296 21.1496 3.26317 20.6199C2.7334 20.0901 2.47382 19.372 2.32543 18.2193C2.15036 16.8495 2.13303 15.1744 2.13303 12.1331V11.8669C2.13303 8.8256 2.15036 7.15046 2.32543 5.78074C2.47382 4.62803 2.7334 3.90993 3.26317 3.38014C3.79296 2.85037 4.51106 2.59079 5.66377 2.4424Z" fill="#000000"></path> </g></svg>
-			</div>
+			<TodoListAddButton addTodoList={addTodoList} />
 
-			{/* List of all todo names */}
-			<div className="flex items-center mb-2">
-				{todoLists.length === 0 ? (
-					<div>
-						<button
-							className="bg-gray-700 text-white py-2 px-4 rounded-md"
-							onClick={addTodoList}
-						>Create a todo list</button>
-					</div>
-				) : (
-					<select
-						className="form-select bg-gray-700 text-white py-2 px-4 rounded-md"
-						value={currentListName}
-						onChange={(e) => setCurrentListName(e.target.value)}
-					>
-						{todoLists.map((list) => (
-							<option key={list.name} value={list.name}>
-								{list.name}
-							</option>
-						))}
-					</select>
-				)}
-			</div>
+
+			{/* Top menu - List of all todo names */}
+			<TopMenu
+				addTodoList={addTodoList}
+				todoLists={todoLists}
+				currentListName={currentListName}
+				setCurrentListName={setCurrentListName}
+			/>
 
 			{/* Display the selected todo list */}
 			{currentListName && (
-				<div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-1/2 max-w-lg">
+				<div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-full ">
 
 					{/* Todo list name */}
 					<div className="flex items-center justify-between w-full">
-						<h2 className="text-2xl font-bold mb-2">{currentListName}</h2>
+						{editingListName !== currentListName && (
+							<h2 className="text-2xl font-bold mb-2">{currentListName}</h2>
+						)}
 						<div className="flex space-x-2">
 							{editingListName === currentListName ? (
 								<>
+									{/* Rename input field */}
 									<input
 										className="bg-gray-700 text-white px-2 rounded"
 										value={newListName}
 										onChange={(e) => setNewListName(e.target.value)}
 									/>
+
+									{/* Confirm button */}
 									<button
-										className="bg-green-500 text-white px-2 rounded"
+										className="  text-green-500"
 										onClick={() => confirmEditListName(currentListName, newListName)}
 									>
-										Confirm
+										<svg className="w-8 h-8" fill="currentColor" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 335.765 335.765" xmlSpace="preserve"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <polygon points="311.757,41.803 107.573,245.96 23.986,162.364 0,186.393 107.573,293.962 335.765,65.795 "></polygon> </g> </g> </g></svg>
 									</button>
+
+									{/* Cancel button */}
 									<button
-										className="bg-red-500 text-white px-2 rounded"
+										className="text-red-500 px-2 rounded"
 										onClick={cancelEditListName}
 									>
-										Cancel
+										<svg className="w-8 h-8" fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M0 14.545L1.455 16 8 9.455 14.545 16 16 14.545 9.455 8 16 1.455 14.545 0 8 6.545 1.455 0 0 1.455 6.545 8z" fillRule="evenodd"></path> </g></svg>
 									</button>
 								</>
 							) : (
 								<>
+									{/* Edit button */}
 									<button
 										className="bg-yellow-500 text-white px-2 rounded"
 										onClick={() => {
@@ -264,13 +253,15 @@ const confirmEditListName = (oldName, newName) => {
 											setNewListName(currentListName);
 										}}
 									>
-										Edit
+										<svg className="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fillRule="evenodd" clipRule="evenodd" d="M21.1213 2.70705C19.9497 1.53548 18.0503 1.53547 16.8787 2.70705L15.1989 4.38685L7.29289 12.2928C7.16473 12.421 7.07382 12.5816 7.02986 12.7574L6.02986 16.7574C5.94466 17.0982 6.04451 17.4587 6.29289 17.707C6.54127 17.9554 6.90176 18.0553 7.24254 17.9701L11.2425 16.9701C11.4184 16.9261 11.5789 16.8352 11.7071 16.707L19.5556 8.85857L21.2929 7.12126C22.4645 5.94969 22.4645 4.05019 21.2929 2.87862L21.1213 2.70705ZM18.2929 4.12126C18.6834 3.73074 19.3166 3.73074 19.7071 4.12126L19.8787 4.29283C20.2692 4.68336 20.2692 5.31653 19.8787 5.70705L18.8622 6.72357L17.3068 5.10738L18.2929 4.12126ZM15.8923 6.52185L17.4477 8.13804L10.4888 15.097L8.37437 15.6256L8.90296 13.5112L15.8923 6.52185ZM4 7.99994C4 7.44766 4.44772 6.99994 5 6.99994H10C10.5523 6.99994 11 6.55223 11 5.99994C11 5.44766 10.5523 4.99994 10 4.99994H5C3.34315 4.99994 2 6.34309 2 7.99994V18.9999C2 20.6568 3.34315 21.9999 5 21.9999H16C17.6569 21.9999 19 20.6568 19 18.9999V13.9999C19 13.4477 18.5523 12.9999 18 12.9999C17.4477 12.9999 17 13.4477 17 13.9999V18.9999C17 19.5522 16.5523 19.9999 16 19.9999H5C4.44772 19.9999 4 19.5522 4 18.9999V7.99994Z" fill="#000000"></path> </g></svg>
 									</button>
+
+									{/* Delete Button */}
 									<button
 										className="bg-red-500 text-white px-2 rounded"
 										onClick={() => deleteTodoList(currentListName)}
 									>
-										Delete
+										<svg className="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M14 12V17" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M4 7H20" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path> </g></svg>
 									</button>
 								</>
 							)}
