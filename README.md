@@ -1,4 +1,5 @@
 <h1>**Celebal Technologies Summer Internship**</h1><br>
-<h3>Week 2 - To Do List</h3> <br>
-<h6>command to run: npm start</h6><br>
+<h2>Week 2 - To Do List</h2>
+<h2>command to run: npm start</h2>
+<h3>hosted on NETLIFY: https://github.com/eziokittu/Week2_ToDoList</h3>
 Project Description: Develop a React To-Do List component allowing task addition, removal, and completion marking. Validate task input, display tasks dynamically, and offer optional sorting, filtering, and localStorage integration. Submit code on Git with brief testing guidance.
