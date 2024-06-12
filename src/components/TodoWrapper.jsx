@@ -228,9 +228,6 @@ export const TodoWrapper = () => {
 			{currentListName && (
 				<div className="flex flex-col items-center bg-[#230e28] text-[#ffe4f9] p-4 rounded-xl shadow-md w-full sm:w-[650px]">
 
-					{/* list creation date */}
-					<p className="text-[#ffe4f9] ">Date: </p>
-
 					{/* Todo list name */}
 					<div className="w-full">
 						<div className="">
