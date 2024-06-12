@@ -34,7 +34,7 @@ const TodoItem = ({ item, deleteItem, updateItem }) => {
         value={text}
         onChange={handleTextChange}
       />
-      <button onClick={() => deleteItem(item.id)} className="bg-red-500 text-white px-2 py-1 rounded ml-2">Delete</button>
+      <button onClick={() => deleteItem(item.id)} className="bg-red-500 text-white px-2 py-1 rounded-xl ml-2">Delete</button>
     </div>
   );
 };

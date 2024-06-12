@@ -87,11 +87,11 @@ const TopMenu = ({ addTodoList, currentListName, setCurrentListName, todoLists }
   };
 
   return (
-    <div className="flex items-center">
+    <div className="flex justify-center items-center text-center">
       {todoLists.length === 0 ? (
         <div>
           <button
-            className="bg-[#230e28] text-[#ffe4f9] text-center font-bold text-lg xsm:text-xl sm:text-2xl py-2 px-4 rounded-xl"
+            className="bg-[#230e28] text-[#ffe4f9] text-center font-bold text-lg xsm:text-xl sm:text-2xl py-2 px-4 rounded-xl h-14"
             onClick={addTodoList}
           >
             Create a todo list
