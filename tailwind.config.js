@@ -14,6 +14,9 @@ module.exports = {
         'xl': '1325px',
         '2xl': '1600px',
       },
+      fontFamily: {
+        'Roboto': ["Roboto", 'sans-serif']
+      }
     },
   },
   plugins: [

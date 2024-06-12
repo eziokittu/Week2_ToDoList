@@ -194,7 +194,7 @@ export const TodoWrapper = () => {
 	};
 
 	return (
-		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-red-500 px-2 sm:px-4">
+		<div className="relative z-10 mt-10 flex flex-col justify-center items-center bg-red-500 px-2 sm:px-4 font-Roboto">
 
 			{/* Add a new todo list button */}
 			<TodoListAddButton addTodoList={addTodoList} />
@@ -210,7 +210,7 @@ export const TodoWrapper = () => {
 
 			{/* Display the selected todo list */}
 			{currentListName && (
-				<div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-full ">
+				<div className="flex flex-col items-center bg-white p-4 rounded-lg shadow-md w-full sm:w-[650px]">
 
 					{/* Todo list name */}
 					<div className="flex items-center justify-between w-full">
@@ -306,6 +306,11 @@ export const TodoWrapper = () => {
 					)}
 				</div>
 			)}
+
+			{/* bottom text */}
+			<div className="flex gap-1">
+				<p className="font-bold">Note:</p>
+				<p>Click a task to mark as complete</p></div>
 		</div>
 	);
 };
