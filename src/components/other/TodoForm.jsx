@@ -21,7 +21,7 @@ export const TodoForm = ({ addTodo }) => {
         type="text" 
         value={value} 
         onChange={(e) => setValue(e.target.value)} 
-        className="w-full px-4 py-2 rounded-xl bg-[#ffe4f9] text-[#230e28]" 
+        className="w-full px-4 py-2 rounded-xl font-bold bg-[#ffe4f9] text-[#230e28] placeholder:text-[#230e2896]" 
         placeholder='Add a new todo item!'
       />
       
