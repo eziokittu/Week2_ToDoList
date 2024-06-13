@@ -260,7 +260,7 @@ export const TodoWrapper = () => {
 							) : (
 								<div className="flex space-x-2 w-full items-center">
 									{/* todo list heading */}
-									<p className="text-2xl font-bold w-full p-2 underline underline-offset-4">{currentListName}</p>
+									<p className="text-lg sm:text-2xl font-bold w-full p-2 underline underline-offset-4 break-all whitespace-pre-wrap">{currentListName}</p>
 
 									{/* Edit button */}
 									<button
