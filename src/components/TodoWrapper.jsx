@@ -258,13 +258,13 @@ export const TodoWrapper = () => {
 									</button>
 								</div>
 							) : (
-								<div className="flex space-x-2 w-full">
+								<div className="flex space-x-2 w-full items-center">
 									{/* todo list heading */}
 									<p className="text-2xl font-bold w-full p-2 underline underline-offset-4">{currentListName}</p>
 
 									{/* Edit button */}
 									<button
-										className="bg-[#230e28] hover:bg-[#ffe4f9] text-[#ffe4f9] hover:text-[#230e28] p-2 rounded-full ml-auto w-fit"
+										className="bg-[#230e28] hover:bg-[#ffe4f9] text-[#ffe4f9] hover:text-[#230e28] p-2 rounded-full ml-auto w-fit h-fit"
 										onClick={() => {
 											setEditingListName(currentListName);
 											setNewListName(currentListName);
@@ -291,7 +291,7 @@ export const TodoWrapper = () => {
 
 									{/* Delete Button */}
 									<button
-										className="bg-[#230e28] hover:bg-[#ffe4f9] text-[#ffe4f9] hover:text-[#230e28] p-2 rounded-full ml-auto w-fit"
+										className="bg-[#230e28] hover:bg-[#ffe4f9] text-[#ffe4f9] hover:text-[#230e28] p-2 rounded-full ml-auto w-fit h-fit"
 										onClick={() => deleteTodoList(currentListName)}
 									>
 										<svg
@@ -389,7 +389,7 @@ export const TodoWrapper = () => {
 			)}
 
 			{/* bottom text */}
-			<div className="flex gap-1 mt-2 mb-16 text-base sm:text-lg">
+			<div className="flex gap-1 mt-4 mb-32 text-base sm:text-lg">
 				<p className="font-bold">Note:</p>
 				<p>Click a task to mark as complete</p>
 			</div>
